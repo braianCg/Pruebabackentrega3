@@ -1,0 +1,125 @@
+<div class="container mt-5">  
+    <div class="row">  
+        <div class="col-md-6">  
+            {{#if product.thumbnails.length}}  
+            <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">  
+                <div class="carousel-inner">  
+                    {{#each product.thumbnails}}  
+                    <div class="carousel-item {{#if @first}}active{{/if}}">  
+                        <img src="{{this}}" class="d-block w-100" alt="{{../product.title}}" onerror="this.src='https://via.placeholder.com/500'">  
+                    </div>  
+                    {{/each}}  
+                </div>  
+                {{#if (gt product.thumbnails.length 1)}}  
+                <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">  
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>  
+                    <span class="visually-hidden">Anterior</span>  
+                </button>  
+                <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">  
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>  
+                    <span class="visually-hidden">Siguiente</span>  
+                </button>  
+                {{/if}}  
+            </div>  
+            {{else}}  
+            <img src="https://via.placeholder.com/500" class="img-fluid" alt="{{product.title}}">  
+            {{/if}}  
+        </div>  
+        <div class="col-md-6">  
+            <nav aria-label="breadcrumb">  
+                <ol class="breadcrumb">  
+                    <li class="breadcrumb-item"><a href="/products">Productos</a></li>  
+                    <li class="breadcrumb-item active" aria-current="page">{{product.title}}</li>  
+                </ol>  
+            </nav>  
+            <h1>{{product.title}}</h1>  
+            <p class="lead">{{product.description}}</p>  
+            <div class="mb-3">  
+                <span class="badge bg-primary">{{product.category}}</span>  
+                {{#if product.status}}  
+                <span class="badge bg-success">Disponible</span>  
+                {{else}}  
+                <span class="badge bg-danger">No disponible</span>  
+                {{/if}}  
+                <span class="badge bg-info">Código: {{product.code}}</span>  
+            </div>  
+            <h2 class="text-primary">${{product.price}}</h2>  
+            <p class="mb-4">Stock disponible: {{product.stock}} unidades</p>  
+            
+            <div class="d-flex align-items-center mb-4">  
+                <div class="input-group me-3" style="max-width: 150px;">  
+                    <button class="btn btn-outline-secondary" type="button" id="decreaseQuantity">-</button>  
+                    <input type="number" id="quantity" class="form-control text-center" value="1" min="1" max="{{product.stock}}">  
+                    <button class="btn btn-outline-secondary" type="button" id="increaseQuantity">+</button>  
+                </div>  
+                <button id="addToCartBtn" class="btn btn-primary" data-product-id="{{product._id}}">  
+                    Agregar al carrito  
+                </button>  
+            </div>  
+            <div class="mt-4">  
+                <a href="/products" class="btn btn-outline-secondary">Volver a productos</a>  
+            </div>  
+        </div>  
+    </div>  
+</div>  
+
+<script> 
+    document.addEventListener('DOMContentLoaded', function() {  
+        const quantityInput = document.getElementById('quantity');  
+        const decreaseBtn = document.getElementById('decreaseQuantity');  
+        const increaseBtn = document.getElementById('increaseQuantity');  
+        const addToCartBtn = document.getElementById('addToCartBtn');  
+        const maxStock = {{product.stock}};  
+
+        decreaseBtn.addEventListener('click', () => {  
+            let currentValue = parseInt(quantityInput.value);  
+            if (currentValue > 1) {  
+                quantityInput.value = currentValue - 1;  
+            }  
+        });  
+        increaseBtn.addEventListener('click', () => {  
+            let currentValue = parseInt(quantityInput.value);  
+            if (currentValue < maxStock) {  
+                quantityInput.value = currentValue + 1;  
+            }  
+        });  
+        quantityInput.addEventListener('change', () => {  
+            let currentValue = parseInt(quantityInput.value);  
+            if (isNaN(currentValue) || currentValue < 1) {  
+                quantityInput.value = 1;  
+            } else if (currentValue > maxStock) {  
+                quantityInput.value = maxStock;  
+            }  
+        }); 
+        addToCartBtn.addEventListener('click', async () => {  
+            const productId = addToCartBtn.getAttribute('data-product-id');  
+            const quantity = parseInt(quantityInput.value);  
+            
+            try {
+                const cartId = localStorage.getItem('cartId') || '64f5e35cb8b5ef9e1e3b0e1c';  
+                
+                const response = await fetch(`/api/carts/${cartId}/products/${productId}`, {  
+                    method: 'POST',  
+                    headers: {  
+                        'Content-Type': 'application/json'  
+                    },  
+                    body: JSON.stringify({ quantity })  
+                });  
+                
+                const data = await response.json();  
+                
+                if (data.status === 'success') {  
+                    alert(`${quantity} unidades del producto agregadas al carrito`); 
+                    if (!localStorage.getItem('cartId')) {  
+                        localStorage.setItem('cartId', cartId);  
+                    }  
+                } else {  
+                    alert(`Error: ${data.message}`);  
+                }  
+            } catch (error) {  
+                console.error('Error al agregar producto al carrito:', error);  
+                alert('Ocurrió un error al agregar el producto al carrito');  
+            }  
+        });  
+    });  
+</script>

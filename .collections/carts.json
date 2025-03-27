@@ -1,0 +1,130 @@
+{  
+    "info": {  
+    "_postman_id": "1c5a2d8e-7b9c-5c0f-9c5a-8f3c5b7a1f0e",  
+    "name": "Carts API",  
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"  
+    },  
+    "item": [  
+    {  
+        "name": "Create new cart",  
+        "request": {  
+        "method": "POST",  
+        "url": {  
+            "raw": "http://localhost:8080/api/carts",  
+            "protocol": "http",  
+            "host": ["localhost"],  
+            "port": "8080",  
+            "path": ["api", "carts"]  
+        }  
+        }  
+    },  
+    {  
+        "name": "Get cart by ID",  
+        "request": {  
+        "method": "GET",  
+        "url": {  
+            "raw": "http://localhost:8080/api/carts/64f5e35cb8b5ef9e1e3b0e1c",  
+            "protocol": "http",  
+            "host": ["localhost"],  
+            "port": "8080",  
+            "path": ["api", "carts", "64f5e35cb8b5ef9e1e3b0e1c"]  
+        }  
+        }  
+    },  
+    {  
+        "name": "Add product to cart",  
+        "request": {  
+        "method": "POST",  
+        "header": [  
+            {  
+            "key": "Content-Type",  
+            "value": "application/json"  
+            }  
+        ],  
+        "url": {  
+            "raw": "http://localhost:8080/api/carts/64f5e35cb8b5ef9e1e3b0e1c/products/64f5e35cb8b5ef9e1e3b0e10",  
+            "protocol": "http",  
+            "host": ["localhost"],  
+            "port": "8080",  
+            "path": ["api", "carts", "64f5e35cb8b5ef9e1e3b0e1c", "products", "64f5e35cb8b5ef9e1e3b0e10"]  
+        },  
+        "body": {  
+            "mode": "raw",  
+            "raw": "{\n    \"quantity\": 2\n}"  
+        }  
+        }  
+    },  
+    {  
+        "name": "Update product quantity",  
+        "request": {  
+        "method": "PUT",  
+        "header": [  
+            {  
+            "key": "Content-Type",  
+            "value": "application/json"  
+            }  
+        ],  
+        "url": {  
+            "raw": "http://localhost:8080/api/carts/64f5e35cb8b5ef9e1e3b0e1c/products/64f5e35cb8b5ef9e1e3b0e10",  
+            "protocol": "http",  
+            "host": ["localhost"],  
+            "port": "8080",  
+            "path": ["api", "carts", "64f5e35cb8b5ef9e1e3b0e1c", "products", "64f5e35cb8b5ef9e1e3b0e10"]  
+        },  
+        "body": {  
+            "mode": "raw",  
+            "raw": "{\n    \"quantity\": 5\n}"  
+        }  
+        }  
+    },  
+    {  
+        "name": "Update entire cart",  
+        "request": {  
+        "method": "PUT",  
+        "header": [  
+            {  
+            "key": "Content-Type",  
+            "value": "application/json"  
+            }  
+        ],  
+        "url": {  
+            "raw": "http://localhost:8080/api/carts/64f5e35cb8b5ef9e1e3b0e1c",  
+            "protocol": "http",  
+            "host": ["localhost"],  
+            "port": "8080",  
+            "path": ["api", "carts", "64f5e35cb8b5ef9e1e3b0e1c"]  
+        },  
+        "body": {  
+            "mode": "raw",  
+            "raw": "{\n    \"products\": [\n        {\n            \"product\": \"64f5e35cb8b5ef9e1e3b0e10\",\n            \"quantity\": 3\n        },\n        {\n            \"product\": \"64f5e35cb8b5ef9e1e3b0e11\",\n            \"quantity\": 1\n        }\n    ]\n}"  
+        }  
+        }  
+    },  
+    {  
+        "name": "Remove product from cart",  
+        "request": {  
+        "method": "DELETE",  
+        "url": {  
+            "raw": "http://localhost:8080/api/carts/64f5e35cb8b5ef9e1e3b0e1c/products/64f5e35cb8b5ef9e1e3b0e10",  
+            "protocol": "http",  
+            "host": ["localhost"],  
+            "port": "8080",  
+            "path": ["api", "carts", "64f5e35cb8b5ef9e1e3b0e1c", "products", "64f5e35cb8b5ef9e1e3b0e10"]  
+        }  
+        }  
+    },  
+    {  
+        "name": "Delete cart",  
+        "request": {  
+        "method": "DELETE",  
+        "url": {  
+            "raw": "http://localhost:8080/api/carts/64f5e35cb8b5ef9e1e3b0e1c",  
+            "protocol": "http",  
+            "host": ["localhost"],  
+            "port": "8080",  
+            "path": ["api", "carts", "64f5e35cb8b5ef9e1e3b0e1c"]  
+        }  
+        }  
+    }  
+    ]  
+}

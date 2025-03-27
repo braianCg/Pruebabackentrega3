@@ -1,0 +1,106 @@
+<div class="row mb-4">  
+    <div class="col-md-6">  
+        <h1>Productos</h1>  
+    </div>  
+    <div class="col-md-6">  
+        <form class="d-flex" action="/products" method="GET">  
+            <input class="form-control me-2" type="search" name="query" placeholder="Buscar productos" aria-label="Search">  
+            <select class="form-select me-2" name="sort">  
+                <option value="">Ordenar por</option>  
+                <option value="asc">Precio: Menor a Mayor</option>  
+                <option value="desc">Precio: Mayor a Menor</option>  
+            </select>  
+            <button class="btn btn-outline-success" type="submit">Buscar</button>  
+        </form>  
+    </div>  
+</div>  
+
+<div class="row row-cols-1 row-cols-md-3 g-4">  
+    {{#each products}}  
+    <div class="col">  
+        <div class="card h-100 product-card">  
+            <img src="{{thumbnails.[0]}}" class="card-img-top" alt="{{title}}" onerror="this.src='https://via.placeholder.com/300'">  
+            <div class="card-body">  
+                <h5 class="card-title">{{title}}</h5>  
+                <p class="card-text">{{description}}</p>  
+                <p class="card-text"><strong>Precio: ${{price}}</strong></p>  
+                <p class="card-text"><small class="text-muted">Categoría: {{category}}</small></p>  
+            </div>  
+            <div class="card-footer d-flex justify-content-between">  
+                <a href="/products/{{_id}}" class="btn btn-primary">Ver detalles</a>  
+                <button class="btn btn-success add-to-cart" data-product-id="{{_id}}">Agregar al carrito</button>  
+            </div>  
+        </div>  
+    </div>  
+    {{/each}}  
+</div>  
+
+{{#unless products.length}}  
+<div class="alert alert-info mt-4">  
+    No se encontraron productos.  
+</div>  
+{{/unless}}  
+
+<nav aria-label="Paginación de productos" class="mt-4">  
+    <ul class="pagination">  
+        {{#if pagination.hasPrevPage}}  
+        <li class="page-item">  
+            <a class="page-link" href="{{pagination.prevLink}}" aria-label="Anterior">  
+                <span aria-hidden="true">&laquo;</span>  
+            </a>  
+        </li>  
+        {{else}}  
+        <li class="page-item disabled">  
+            <span class="page-link">&laquo;</span>  
+        </li>  
+        {{/if}}  
+        <li class="page-item active">  
+            <span class="page-link">Página {{pagination.page}} de {{pagination.totalPages}}</span>  
+        </li>  
+        
+        {{#if pagination.hasNextPage}}  
+        <li class="page-item">  
+            <a class="page-link" href="{{pagination.nextLink}}" aria-label="Siguiente">  
+                <span aria-hidden="true">&raquo;</span>  
+            </a>  
+        </li>  
+        {{else}}  
+        <li class="page-item disabled">  
+            <span class="page-link">&raquo;</span>  
+        </li>  
+        {{/if}}  
+    </ul>  
+</nav>  
+
+<script>  
+    document.querySelectorAll('.add-to-cart').forEach(button => {  
+        button.addEventListener('click', async (e) => {  
+            const productId = e.target.getAttribute('data-product-id');  
+            try {  
+                const cartId = localStorage.getItem('cartId') || '64f5e35cb8b5ef9e1e3b0e1c';  
+                
+                const response = await fetch(`/api/carts/${cartId}/products/${productId}`, {  
+                    method: 'POST',  
+                    headers: {  
+                        'Content-Type': 'application/json'  
+                    },  
+                    body: JSON.stringify({ quantity: 1 })  
+                });  
+                
+                const data = await response.json();  
+                
+                if (data.status === 'success') {  
+                    alert('Producto agregado al carrito');
+                    if (!localStorage.getItem('cartId')) { 
+                        localStorage.setItem('cartId', cartId);  
+                    }  
+                } else {  
+                    alert(`Error: ${data.message}`);  
+                }  
+            } catch (error) {  
+                console.error('Error al agregar producto al carrito:', error);  
+                alert('Ocurrió un error al agregar el producto al carrito');  
+            }  
+        });  
+    });  
+</script>  

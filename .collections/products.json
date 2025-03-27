@@ -1,0 +1,154 @@
+{  
+    "info": {  
+    "_postman_id": "2f0a1d9e-6b8c-4c0f-8c5a-9f3c4b5a1f0e",  
+    "name": "Products API",  
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"  
+    },  
+    "item": [  
+    {  
+        "name": "Get all products",  
+        "request": {  
+        "method": "GET",  
+        "url": {  
+            "raw": "http://localhost:8080/api/products",  
+            "protocol": "http",  
+            "host": ["localhost"],  
+            "port": "8080",  
+            "path": ["api", "products"]  
+        }  
+        }  
+    },  
+    {  
+        "name": "Get products with pagination",  
+        "request": {  
+            "method": "GET",  
+            "url": {  
+            "raw": "http://localhost:8080/api/products?limit=5&page=1",  
+            "protocol": "http",  
+            "host": ["localhost"],  
+            "port": "8080",  
+            "path": ["api", "products"],  
+            "query": [  
+                {  
+                "key": "limit",  
+                "value": "5"  
+                },  
+                {  
+                "key": "page",  
+                "value": "1"  
+                }  
+            ]  
+            }  
+        }  
+        },  
+        {  
+        "name": "Get products sorted by price",  
+        "request": {  
+            "method": "GET",  
+            "url": {  
+            "raw": "http://localhost:8080/api/products?sort=asc",  
+            "protocol": "http",  
+            "host": ["localhost"],  
+            "port": "8080",  
+            "path": ["api", "products"],  
+            "query": [  
+                {  
+                "key": "sort",  
+                "value": "asc"  
+                }  
+            ]  
+            }  
+        }  
+        },  
+        {  
+        "name": "Get products by category",  
+        "request": {  
+            "method": "GET",  
+            "url": {  
+            "raw": "http://localhost:8080/api/products?query={\"category\":\"electronics\"}",  
+            "protocol": "http",  
+            "host": ["localhost"],  
+            "port": "8080",  
+            "path": ["api", "products"],  
+            "query": [  
+                {  
+                "key": "query",  
+                "value": "{\"category\":\"electronics\"}"  
+                }  
+            ]  
+            }  
+        }  
+        },  
+        {  
+        "name": "Get product by ID",  
+        "request": {  
+            "method": "GET",  
+            "url": {  
+            "raw": "http://localhost:8080/api/products/64f5e35cb8b5ef9e1e3b0e10",  
+            "protocol": "http",  
+            "host": ["localhost"],  
+            "port": "8080",  
+            "path": ["api", "products", "64f5e35cb8b5ef9e1e3b0e10"]  
+            }  
+        }  
+        },  
+        {  "name": "Create product",  
+            "request": {  
+            "method": "POST",  
+            "header": [  
+            {  
+                "key": "Content-Type",  
+                "value": "application/json"  
+            }  
+            ],  
+            "url": {  
+            "raw": "http://localhost:8080/api/products",  
+            "protocol": "http",  
+            "host": ["localhost"],  
+            "port": "8080",  
+            "path": ["api", "products"]  
+            },  
+            "body": {  
+            "mode": "raw",  
+            "raw": "{\n    \"title\": \"Laptop Premium\",\n    \"description\": \"Laptop de alta gama para desarrollo y gaming\",\n    \"code\": \"LAPTOP001\",\n    \"price\": 1299.99,\n    \"status\": true,\n    \"stock\": 15,\n    \"category\": \"electronics\",\n    \"thumbnails\": [\"https://example.com/images/laptop1.jpg\"]\n}"  
+            }  
+        }  
+        },  
+        {  
+        "name": "Update product",  
+        "request": {  
+            "method": "PUT",  
+            "header": [  
+            {  
+                "key": "Content-Type",  
+                "value": "application/json"  
+            }  
+            ],  
+            "url": {  
+            "raw": "http://localhost:8080/api/products/64f5e35cb8b5ef9e1e3b0e10",  
+            "protocol": "http",  
+            "host": ["localhost"],  
+            "port": "8080",  
+            "path": ["api", "products", "64f5e35cb8b5ef9e1e3b0e10"]  
+            },  
+            "body": {  
+            "mode": "raw",  
+            "raw": "{\n    \"price\": 1199.99,\n    \"stock\": 20\n}"  
+            }  
+        }  
+        },  
+        {  
+        "name": "Delete product",  
+        "request": {  
+            "method": "DELETE",  
+            "url": {  
+            "raw": "http://localhost:8080/api/products/64f5e35cb8b5ef9e1e3b0e10",  
+            "protocol": "http",  
+            "host": ["localhost"],  
+            "port": "8080",  
+            "path": ["api", "products", "64f5e35cb8b5ef9e1e3b0e10"]  
+            }  
+        }  
+        }  
+    ]  
+    }
